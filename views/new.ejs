@@ -1,0 +1,37 @@
+<% include partials/header %>
+
+<div class="container">
+
+<h1>Create a new room</h1>
+<form action="/rooms" method="POST">
+	<div class="form-group">
+		<input type="text" id="name" name="name" class="form-control" placeholder="Name" autofocus="autofocus">
+		<div id='nameError' class="invalid-feedback"></div>
+	</div>
+
+	<div class="form-group">
+	  	<% var sizes = ["Extra-Small", "Small", "Medium", "Large", "Extra-Large"]; %>
+
+		<select name="size" id="size" class="form-control">
+		  <%sizes.forEach(function(size){ %>
+		  	<option value="<%=size%>"><%=size%></option>
+		  <% }); %>
+		</select>
+	  </div>
+
+
+	<div class="form-group">
+		<input type="text" name="image" class="form-control" id="image" placeholder="Image">
+		<div id='imageError' class="invalid-feedback"></div>
+	</div>
+
+	<div class="form-group">
+		<button type="submit" id="submit" class="btn btn-primary">Submit</button>
+	</div>
+</form>
+
+</div>
+
+<script src="/javascripts/room-form-validate.js"></script>
+
+<% include partials/footer %>

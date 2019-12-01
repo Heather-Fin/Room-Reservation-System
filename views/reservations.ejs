@@ -1,0 +1,48 @@
+<% include partials/header %>
+
+<h3 class="text-center pt-5 pb-3">
+<%if(user.username == "admin"){%>
+  All
+<%} else {%>
+  Your
+<%}%>
+Current Reservations</h3>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Date</th>
+      <%if(user.username == "admin"){%>
+        <th scope="col">User</th>
+      <%}%>
+      <th scope="col">Room</th>
+      <th scope="col">Cancel Reservation</th>
+    </tr>
+  </thead>
+  <tbody>
+
+  	<% reservations.forEach(function(reservation, idx){ %>
+		<% var foundRoom = rooms.find(function(element) {
+			return element._id == reservation.room;
+		}); %>
+	    <tr>
+	      <th scope="row"><%=idx + 1%></th>
+	      <td><%= reservation.date %></td>
+        <%if(user.username == "admin"){%>
+          <td><%= reservation.user %></td>
+        <%}%>
+	      <td><a href="/rooms/<%= foundRoom._id %>"><%= foundRoom.name %></a></td>
+        <td>
+          <form action="/reservations/<%= reservation._id %>?_method=DELETE" method="POST">
+            <button type="submit" class="btn btn-danger">Cancel</button>
+          </form>
+        </td>
+	    </tr>
+	<%});%>
+
+  </tbody>
+</table>
+
+
+<% include partials/footer %>
