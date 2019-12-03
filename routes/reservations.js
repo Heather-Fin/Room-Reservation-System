@@ -56,6 +56,26 @@ router.post('/:id', function(req, res){
     });
 });
 
+// load edit a room reservation page
+router.get('/:id', function(req, res){
+  var collection = db.get('reservations');
+  var roomCollection = db.get('rooms');
+  collection.findOne({ _id: req.params.id }, function(err, reservation){
+    if (err) throw err;
+    roomCollection.findOne({ '_id' : reservation.room }, function(err, room){
+      res.render('editReservation', { room: room, reservation: reservation, user: req.user});
+    });
+  });
+});
+
+// update reservation info
+router.put('/:id', function(req, res){
+    var collection = db.get('reservations');
+    collection.findOneAndUpdate({_id: req.params.id}, {$set: {date: req.body.date} }).then((updatedDoc) => {});
+    
+    res.redirect('/reservations');
+});
+
 //delete room reservation
 router.delete('/:id', function(req, res){
     var collection = db.get('reservations');

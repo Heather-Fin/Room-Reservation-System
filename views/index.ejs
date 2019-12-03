@@ -1,11 +1,13 @@
 <% include partials/header %>
 
 <div class="jumbotron">
-  <h1 class="display-4">Welcome to Room Rezy</h1>
-  <p>Here is the list of available meeting rooms.</p>
+  <h1 class="display-4">Welcome to Room Rezy
+    <img src="/images/calendar.png" style="width:70px; filter: invert(29%) sepia(88%) saturate(2722%) hue-rotate(201deg) brightness(104%) contrast(106%);"/>
+  </h1>
+  <p class="lead">Here is the list of available meeting rooms.</p>
 
   <% if (user && user.username === "admin") { %>
-	<a class="btn btn-info" href="/rooms/new" role="button">Add a new room</a>
+	<a class="btn btn-info" href="/rooms/new" role="button"><i class="fa fa-plus"></i> Add a new room</a>
   <% } %>
 
 </div>

@@ -73,28 +73,22 @@ router.post('/register', function(req, res) {
 });
 
 router.get('/login', function(req, res) {
+  if(req.session.warning != undefined){
+    res.locals.warning = req.session.warning;
+    req.session.warning = null;
+  }
   res.render('login', { user : req.user });
 });
 
-// router.post('/login', function(req, res, next) {
-//   passport.authenticate('local', function(err, user, info) {
-//     if (err) { return next(err); }
-//     if (!user) { return res.render('login', {result: "unsuccessful"});} //res.redirect('/login'); }
-//     req.logIn(user, function(err) {
-//       if (err) { return next(err); }
-//       return res.redirect('/');
-//     });
-//   })(req, res, next);
-// });
+router.get('/login/invalid', function(req, res){
+  req.session.warning = "Username or password are incorrect.";
+  res.redirect('/login');
+})
 
-// router.post('/login',
-//   passport.authenticate('local', { successRedirect: '/',
-//                                    failureRedirect: '/login'
-//                                     }));
-
-router.post('/login', passport.authenticate('local'), function(req, res) {
+router.post('/login', passport.authenticate('local', {failureRedirect: '/login/invalid'}), function(req, res){
   res.redirect('/');
 });
+
 
 router.get('/logout', function(req, res) {
   req.logout();

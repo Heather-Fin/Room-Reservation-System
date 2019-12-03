@@ -1,6 +1,7 @@
 <% include partials/header %>
 
-<h3 class="text-center pt-5 pb-3">
+<div class="container-fluid text-center bg-light p-5">
+<h3 class="text-center pb-3">
 <%if(user.username == "admin"){%>
   All
 <%} else {%>
@@ -8,7 +9,7 @@
 <%}%>
 Current Reservations</h3>
 
-<table class="table table-striped">
+<table class="table table-striped table-bordered table-sm">
   <thead>
     <tr>
       <th scope="col">#</th>
@@ -17,32 +18,91 @@ Current Reservations</h3>
         <th scope="col">User</th>
       <%}%>
       <th scope="col">Room</th>
+      <th scope="col">Edit Reservation</th>
       <th scope="col">Cancel Reservation</th>
     </tr>
   </thead>
   <tbody>
 
-  	<% reservations.forEach(function(reservation, idx){ %>
-		<% var foundRoom = rooms.find(function(element) {
-			return element._id == reservation.room;
-		}); %>
+    <%var pastReservations = [];
+    var today = new Date();
+    var currYear = parseInt(today.getFullYear());
+    var currMonth = parseInt(today.getMonth() + 1);
+    var currDay = parseInt(today.getDate());
+    var index = 1;
+
+  	reservations.forEach(function(reservation, idx){
+      var date = (reservation.date).split('/');
+
+      // if date is alreayd passed, add to past reservations array
+      if((date[2] < currYear) || (date[0] < currMonth) || ((date[1] < currDay) && (date[0] == currMonth))) {
+        pastReservations.push(reservation);
+      }
+
+      // only show current reservations in main table
+      else {
+        var foundRoom = rooms.find(function(element) {
+          return element._id == reservation.room;
+        });
+      %>
 	    <tr>
-	      <th scope="row"><%=idx + 1%></th>
+	      <th scope="row"><%=index%></th>
 	      <td><%= reservation.date %></td>
         <%if(user.username == "admin"){%>
           <td><%= reservation.user %></td>
         <%}%>
 	      <td><a href="/rooms/<%= foundRoom._id %>"><%= foundRoom.name %></a></td>
         <td>
+          <form action="/reservations/<%= reservation._id %>" method="GET">
+            <button type="submit" class="btn btn-info"><i class="fa fa-edit"></i> Edit</button>
+          </form>
+        </td>
+        <td>
           <form action="/reservations/<%= reservation._id %>?_method=DELETE" method="POST">
-            <button type="submit" class="btn btn-danger">Cancel</button>
+            <button type="submit" class="btn btn-danger"><i class="fa fa-times"></i> Cancel</button>
           </form>
         </td>
 	    </tr>
+      <%index += 1;%>
+      <%}%>
 	<%});%>
 
   </tbody>
 </table>
+
+  
+  <% // table of past reservations
+  if(pastReservations.length > 0){ %>
+    <h3 class="text-center pt-5 pb-3">Past Reservations</h3>
+      <table class="table table-striped table-bordered table-sm">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Date</th>
+            <%if(user.username == "admin"){%>
+              <th scope="col">User</th>
+            <%}%>
+            <th scope="col">Room</th>
+          </tr>
+        </thead>
+      <tbody>
+      <%pastReservations.forEach(function(reservation, idx){
+        var foundRoom = rooms.find(function(element) {
+          return element._id == reservation.room;
+        }); %>
+        <tr>
+        <th scope="row"><%=idx + 1%></th>
+        <td><%= reservation.date %></td>
+        <%if(user.username == "admin"){%>
+          <td><%= reservation.user %></td>
+        <%}%>
+        <td><a href="/rooms/<%= foundRoom._id %>"><%= foundRoom.name %></a></td>
+        </tr>
+      <%});%>
+  <%}%>
+    </tbody>
+</table>
+</div>
 
 
 <% include partials/footer %>

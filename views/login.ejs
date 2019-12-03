@@ -20,6 +20,13 @@
 		    <input id="password" type="password" name="password" class="form-control" placeholder="Password" maxlength="16">
 		    <div id='passwordError' class="invalid-feedback"></div>
 		  </div>
+
+		  <div class="row justify-content-center">
+		  		<% if (typeof(warning) != "undefined") {%>
+		  		<p class="text-danger justify-content-center">Invalid username or password.</p>
+		  		<%}%>
+		  </div>
+
 		  <div class="row justify-content-center">
 		  	<button type="submit" id="submit" class="btn btn-primary">Submit</button>
 		  </div>
