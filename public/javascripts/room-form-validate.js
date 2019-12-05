@@ -4,20 +4,20 @@ $(function(){
 	if($('#create-room-page').length){
 		$('#submit').prop("disabled",true);
 		validName = false;
-		validImage = false;
+		//validImage = false;
 		validDescription = false;
 	// if page is the edit room page
 	} else {
 		$('#submit').prop("disabled",false);
 		validName = true;
-		validImage = true;
+		//validImage = true;
 		validDescription = true;
 	}
 
 	// called everytime a new entry is changed to valid
 	function checkValid() {
 		// if both values are valid, enable submit button
-		if(validName && validImage && validDescription){
+		if(validName && validDescription){ //&& validImage 
 			$('#submit').prop("disabled", false);
 		} else {
 			$('#submit').prop("disabled", true);
@@ -48,29 +48,29 @@ $(function(){
 		}
 	}
 
-	$('#image').keyup(function() { 
-		checkImage();
-		checkValid();
-	});
-	$('#image').blur(function() { 
-		checkImage();
-		checkValid();
-	});
+	// $('#image').keyup(function() { 
+	// 	checkImage();
+	// 	checkValid();
+	// });
+	// $('#image').blur(function() { 
+	// 	checkImage();
+	// 	checkValid();
+	// });
 
-	function checkImage(){
-		validImage = false;
-		var image = ($("#image").val());
+	// function checkImage(){
+	// 	validImage = false;
+	// 	var image = ($("#image").val());
 		
-		if(!image){
-			$('#image').addClass('is-invalid');
-			$('#imageError').text("Enter an image name.");
-		} 
-		else {
-			$('#image').removeClass('is-invalid');
-			$('#imageError').text("");
-			validImage = true;
-		}
-	}
+	// 	if(!image){
+	// 		$('#image').addClass('is-invalid');
+	// 		$('#imageError').text("Enter an image name.");
+	// 	} 
+	// 	else {
+	// 		$('#image').removeClass('is-invalid');
+	// 		$('#imageError').text("");
+	// 		validImage = true;
+	// 	}
+	// }
 
 	$('#description').keyup(function() { 
 		checkDescription();

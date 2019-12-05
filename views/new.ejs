@@ -3,7 +3,7 @@
 <div class="container">
 
 <h1 id="create-room-page">Create a new room</h1>
-<form action="/rooms" method="POST">
+<form action="/rooms" method="POST" enctype="multipart/form-data">
 	<div class="form-group">
 		<input type="text" id="name" name="name" class="form-control" placeholder="Name" autofocus="autofocus">
 		<div id='nameError' class="invalid-feedback"></div>
@@ -21,7 +21,8 @@
 
 
 	<div class="form-group">
-		<input type="text" name="image" class="form-control" id="image" placeholder="Image">
+		<input type='file' accept="image/*" name="image" class="form-control" id="image" placeholder="Image file"/>
+<!-- 		<input type="text" name="image" class="form-control" id="image" placeholder="Image"> -->
 		<div id='imageError' class="invalid-feedback"></div>
 	</div>
 

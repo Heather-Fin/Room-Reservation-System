@@ -3,7 +3,7 @@
 <div class="container">
 
 <h1>Edit Room</h1>
-<form action="/rooms/<%= room._id %>?_method=PUT" method="POST">
+<form action="/rooms/<%= room._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
 	<div class="form-group">
 		<input type="text" id="name" name="name" class="form-control" value="<%= room.name %>" autofocus="autofocus">
 		<div id='nameError' class="invalid-feedback"></div>
@@ -24,8 +24,9 @@
 	  </div>
 
 	<div class="form-group">
-		<input type="text" id="image" name="image" class="form-control" value="<%= room.image %>">
-		<div id='imageError' class="invalid-feedback"></div>
+		<input type='file' accept="image/*" name="image" class="form-control" id="image" placeholder="Image file" style="display:none"/>
+		<button type="button" class="btn btn-info" id="imageBtn">Upload New Image</button>
+		<div id='imgFileName'></div>
 	</div>
 
 	<div class="form-group">
@@ -39,6 +40,16 @@
 </form>
 
 </div>
+
+<script>
+	$('#imageBtn').click(function(){ 
+		$('#image').trigger('click'); 
+	});
+	$('#image').on('change', function(e) {
+		var fileName = e.target.files[0].name;
+		$('#imgFileName').text(fileName);
+	});
+</script>
 
 <script src="/javascripts/room-form-validate.js"></script>
 

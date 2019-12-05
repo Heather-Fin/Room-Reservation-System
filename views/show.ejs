@@ -3,7 +3,7 @@
 <div class="container-fluid pt-5 pb-5 text-center bg-light">
 
 	<h3 class="mb-2"><%= room.name %></h3>
-	<p><img src="/images/<%= room.image %>" class="rounded" style="width: 400px; height: 400px; object-fit: cover;" /></p>
+	<p><img src="/images/<%= room.image.filename %>" class="rounded" style="width: 400px; height: 400px; object-fit: cover;" /></p>
 	<p><b>Room size:</b> <%= room.size%></p>
 
 	<div class="row justify-content-center">

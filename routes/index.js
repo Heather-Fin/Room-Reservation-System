@@ -7,6 +7,9 @@ var Account = require('../models/account');
 var monk = require('monk');
 var db = monk('localhost:27017/RoomRezy');
 
+var multer  = require('multer')
+var upload = multer({ dest: 'public/images/' })
+
 router.get('/', function (req, res) {
   res.redirect('/page/1');
 });
@@ -119,12 +122,14 @@ router.get('/rooms/:id/edit', function(req, res) {
 });
 
 //insert room
-router.post('/rooms', function(req, res){
+router.post('/rooms', upload.single('image'), function (req, res, next) {
+
     var collection = db.get('rooms');
     collection.insert({
         name: req.body.name,
         size: req.body.size,
-        image: req.body.image,
+        image: req.file,
+        description: req.body.description,
         reservations: [],
         deleted: "false"
     }, function(err, room){
@@ -134,10 +139,17 @@ router.post('/rooms', function(req, res){
 });
 
 //update room
-router.put('/rooms/:id', function(req, res){
+router.put('/rooms/:id', upload.single('image'), function (req, res, next) {
     var collection = db.get('rooms');
-    collection.findOneAndUpdate({_id: req.params.id}, {$set: {name: req.body.name, size: req.body.size, image: req.body.image} }).then((updatedDoc) => {});
-    
+
+    // if no new image is uploaded
+    if(req.file == null){
+      collection.findOneAndUpdate({_id: req.params.id}, {$set: {name: req.body.name, size: req.body.size, description: req.body.description} }).then((updatedDoc) => {});
+    }
+    // if a new image was chosen
+    else {
+      collection.findOneAndUpdate({_id: req.params.id}, {$set: {name: req.body.name, size: req.body.size, image: req.file, description: req.body.description} }).then((updatedDoc) => {});
+    }
     res.redirect('/');
 });
 
