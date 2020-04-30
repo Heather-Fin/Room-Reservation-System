@@ -25,6 +25,6 @@
     "passport-local-mongoose": "^5.0.1"
   },
   "devDependencies": {
-    "jquery": "^1.12.4"
+    "jquery": "^3.5.0"
   }
 }
